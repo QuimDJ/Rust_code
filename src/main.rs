@@ -7,8 +7,5 @@ fn main() {
     };
 
     capture_string();
-    //println!("{first_name}");
-    capture_string();
-    //println!("{first_name}");
 
 }
