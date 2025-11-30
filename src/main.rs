@@ -1,11 +1,9 @@
 fn main() {
-    let first_name=String::from("Alice");
-    let last_name=String::from("Wonder Woman");
+    let option:Option<&str>=Some("Salami");
+    let food=option.unwrap_or_else(|| "Pizza");
+    println!("{}", food);
 
-    let capture_string=move || {
-        println!("{first_name} {last_name}");
-    };
-
-    capture_string();
-
+    let option:Option<&str>=None;
+    let food=option.unwrap_or_else(|| "Pizza");
+    println!("{}", food);
 }
