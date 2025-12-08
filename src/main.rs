@@ -1,37 +1,42 @@
-use std::io::stdin;
+#![allow(unused)]
 #[derive(Debug)]
-struct Vault {
-    password:String,
-    treasure: String,
+struct Location {
+    name:String,
+    treasures:u32,
 }
-impl Vault {
-    
-    fn unlock<F>(self, procedure: F) -> Option<String>
-    where F: FnOnce() -> String {
-        let user_password= procedure();
-        if user_password == self.password {
-            Some(self.treasure)
-        }else{
-            None
+#[derive(Debug)]
+struct Map<'a> {
+    locations: &'a [Location],
+}
+impl<'a> Map<'a> {
+    fn explore<F>(&self, mut action:F) 
+    where F:FnMut(&Location), 
+    {
+        let final_index = self.locations.len()-1;
+        let mut current_index=0;
+        while current_index <= final_index {
+            let current_location =&self.locations[current_index];           current_index +=1;
+            action(current_location);
+            current_index +=1 ;
         }
-
     }
-
 }
-
 fn main() {
-    
-    let user=Vault{password:String::from("22"),treasure: String::from("GOLD MINE")};
-    let mut user_input=String::new();
-    println!("Please, enter the password to open the treasure:");
-    stdin().read_line(&mut user_input);
-    user_input = user_input.trim().to_string();
-    let hack=|| user_input;
-    let extraction=user.unlock(hack);
-    match extraction {
-        Some(_) => println!("User validat amb èxit!"),
-        None => println!("Usuari rebutjat, password incorrecte!"),
-    }
-    
-    
+    let locations = [
+        Location { name:String::from("Enchanted Forest"),
+                    treasures:5, },
+        Location { name:String::from("Mystic Mountain"),
+                    treasures:10, },              
+    ];
+    let map =Map { locations:&locations};
+    let mut total_treasures=0;
+    map.explore(|location:&Location|{
+        total_treasures += location.treasures;
+    });
+    println!("Total treasures collected: {total_treasures:?}");
+    let mut location_names=Vec::new();
+    map.explore(
+        |location: &Location| location_names.push(location.name.clone())
+    );
+    println!("{location_names:?}")
 }

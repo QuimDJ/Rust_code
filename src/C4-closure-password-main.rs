@@ -5,7 +5,6 @@ struct Vault {
     treasure: String,
 }
 impl Vault {
-    
     fn unlock<F>(self, procedure: F) -> Option<String>
     where F: FnOnce() -> String {
         let user_password= procedure();
@@ -14,18 +13,13 @@ impl Vault {
         }else{
             None
         }
-
     }
-
 }
-
 fn main() {
-    
     let user=Vault{password:String::from("2345H"),treasure: String::from("500")};
     let mut user_input=String::new();
     stdin().read_line(&mut user_input);
     user_input = user_input.trim().to_string();
-
     let hack=|| user_input;
     let extraction=user.unlock(hack);
 }
