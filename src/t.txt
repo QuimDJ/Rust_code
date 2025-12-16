@@ -1,0 +1,3 @@
+Aquest es un text,
+de 3 linees, aquesta es la segona 
+aquesta la tercera.
